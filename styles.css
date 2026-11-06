@@ -147,8 +147,9 @@ a:hover {
   text-decoration: none;
 }
 .brand svg {
-  width: 32px;
-  height: 32px;
+  /* The helmet is drawn on a 25 x 19 grid; 2 px per cell keeps it crisp. */
+  width: 50px;
+  height: 38px;
   fill: currentColor;
 }
 .site-nav {
@@ -536,6 +537,18 @@ a:hover {
   background: var(--night);
   color: var(--night-text);
 }
+.closing .wrap {
+  display: grid;
+  gap: 48px;
+  align-items: center;
+}
+.closing-mark {
+  /* 4 px per cell */
+  width: 100px;
+  height: 76px;
+  fill: var(--night-text);
+  order: -1;
+}
 .closing h2 {
   font-family: var(--pixel);
   font-weight: 500;
@@ -605,6 +618,15 @@ a:hover {
   }
   .rules {
     grid-template-columns: 1fr 1fr;
+  }
+  .closing .wrap {
+    grid-template-columns: 1fr auto;
+  }
+  .closing-mark {
+    /* 8 px per cell */
+    width: 200px;
+    height: 152px;
+    order: 0;
   }
 }
 

@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shuriken: a free AI coding agent, paid for by one ad line</title>
+  <meta name="description" content="Shuriken is a terminal coding agent that costs you nothing. One sponsored line under the status bar pays for the model. Your code is never used for ad targeting.">
+  <meta property="og:title" content="Shuriken: a free AI coding agent, paid for by one ad line">
+  <meta property="og:description" content="No subscription, no API key. One sponsored line pays for the model, and your code is never used for ad targeting.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#eef0ec" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d142c" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/pixelify-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Shuriken, top of page">
+      <svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path d="M8 0h1v1h-1zM8 1h2v1h-2zM8 2h2v1h-2zM8 3h3v1h-3zM5 4h6v1h-6zM3 5h9v1h-9zM1 6h11v1h-11zM0 7h7v1h-7zM9 7h3v1h-3zM4 8h3v1h-3zM9 8h7v1h-7zM4 9h11v1h-11zM4 10h9v1h-9zM5 11h6v1h-6zM5 12h3v1h-3zM6 13h2v1h-2zM6 14h2v1h-2zM7 15h1v1h-1z"/></svg>
+      Shuriken
+    </a>
+    <nav class="site-nav" aria-label="Sections">
+      <a href="#who-pays">Who pays</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#questions">Questions</a>
+      <a href="https://github.com/rolzie-7/Shuriken">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <h1>
+        <span>Free AI coding agent.</span>
+        <span>One ad line pays the bill.</span>
+      </h1>
+      <p class="lede">Shuriken is a coding agent for your terminal, built on OpenCode. It runs open-weight models, and you never enter an API key or a card. While it works, one sponsored line sits under the status bar. That line covers the cost of the model.</p>
+
+      <div class="hero-action">
+        <a class="button cut" href="https://github.com/rolzie-7/Shuriken">Watch on GitHub</a>
+        <p>Not released yet. Watch the repo to hear when it ships. We don't ask for your email.</p>
+      </div>
+
+      <div class="demo">
+        <div class="terminal cut" id="terminal" role="img" aria-label="A Shuriken session in a terminal. The agent reads two files, edits one, runs the tests and explains its fix. Under the status bar there is a single line labelled Sponsored, showing an example advert.">
+          <p class="tl t-path">~/work/billing-api</p>
+          <p class="tl t-prompt">the pool leaks connections when a query times out. find it and fix it</p>
+          <div class="t-steps">
+            <p class="tl"><span class="verb">Read</span>src/db/pool.ts</p>
+            <p class="tl"><span class="verb">Read</span>src/db/query.ts</p>
+            <p class="tl"><span class="verb">Edit</span>src/db/query.ts  <span class="meta">+7 -2</span></p>
+            <p class="tl"><span class="verb">Run</span>npm test  <span class="meta">31 passed</span></p>
+          </div>
+          <p class="tl t-answer">The timeout path returned before releasing the client. I moved the release into a finally block and added a test for it.</p>
+          <div class="t-status">
+            <span id="t-state">Done  0:42</span>
+            <span>deepseek-v4.1-flash</span>
+          </div>
+          <div class="tl t-ad" id="t-ad">
+            <span class="label">Sponsored</span>
+            <span>ExampleDB: a Postgres branch for every pull request</span>
+            <span class="link">exampledb.example</span>
+          </div>
+        </div>
+        <p class="callout">This line pays for everything above it.<span>The advert shown here is made up. Real ones are labelled the same way and stay on that one line.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="who-pays">
+    <div class="wrap">
+      <h2>Who pays</h2>
+      <p class="section-intro">Running a model costs money on every request. Most coding agents pass that cost to you as a subscription or an API bill. Shuriken passes it to an advertiser.</p>
+
+      <div class="pays">
+        <ol class="steps">
+          <li>
+            <div>
+              <h3>You give the agent a task</h3>
+              <p>It reads, edits and runs code in your project, the way OpenCode does.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <h3>One sponsored line appears</h3>
+              <p>It sits under the status bar and is matched to the topic you are working on, such as databases or testing.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <h3>The advertiser's payment covers the model</h3>
+              <p>Advertisers pay each time their line is shown. We use open-weight models and prompt caching to keep the cost low enough for that one line to cover it.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="receipt cut" aria-label="What a session costs you">
+          <div class="receipt-head"><b>Shuriken</b><span>your session</span></div>
+          <dl>
+            <div><dt>Model usage</dt><span class="dots"></span><dd class="sponsor">paid by sponsor</dd></div>
+            <div><dt>Subscription</dt><span class="dots"></span><dd>none</dd></div>
+            <div><dt>API key</dt><span class="dots"></span><dd>not needed</dd></div>
+            <div><dt>Card on file</dt><span class="dots"></span><dd>not needed</dd></div>
+          </dl>
+          <div class="receipt-total"><span>You pay</span><span class="dots"></span><span>0.00</span></div>
+          <p class="receipt-note">Expect a daily usage limit, so that what the ads bring in keeps up with what the model costs. We will publish the number at launch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="privacy">
+    <div class="wrap">
+      <h2>What leaves your machine</h2>
+      <p class="section-intro">An agent has to send your prompt somewhere to get an answer, and an ad needs something to be matched against. This is the full list of who receives what.</p>
+
+      <table class="manifest">
+        <thead>
+          <tr>
+            <th scope="col">Where it goes</th>
+            <th scope="col">What it receives</th>
+            <th scope="col">What it doesn't</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">The model provider</th>
+            <td data-label="What it receives">
+              <p>Your prompt and the files the agent reads, so the model can do the work.</p>
+            </td>
+            <td data-label="What it doesn't">
+              <p>Anything to keep. We only route to providers that commit by contract to store nothing once they have answered (zero data retention).</p>
+              <p>Adverts. They are never added to what the model sees, so they can't steer its answers.</p>
+            </td>
+          </tr>
+          <tr class="is-ad">
+            <th scope="row">The ad network</th>
+            <td data-label="What it receives">
+              <p>A short topic for your request, for example "Postgres connection pooling", with secrets and personal data removed on your machine first.</p>
+              <p>Your IP address and the client's User-Agent. Ad networks require both to detect fraud.</p>
+            </td>
+            <td data-label="What it doesn't">
+              <p>Your code, your files or your repository.</p>
+              <p>Keys, passwords and tokens. A local filter strips them before any request is made.</p>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Shuriken's servers</th>
+            <td data-label="What it receives">
+              <p>Requests pass through our gateway, so that no API key ever sits on your machine.</p>
+            </td>
+            <td data-label="What it doesn't">
+              <p class="pending">The gateway is still being built. Before launch we will publish exactly what it logs and for how long.</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="ad-rules">
+    <div class="wrap">
+      <h2>What the ad line can't do</h2>
+      <ul class="rules">
+        <li><b>Take more than its line.</b> One line, labelled Sponsored. No pop-ups.</li>
+        <li><b>Appear in your code.</b> Nothing sponsored is ever written into files the agent creates or edits.</li>
+        <li><b>Talk to the model.</b> The ad is fetched separately and drawn in the interface only. The model never sees it.</li>
+        <li><b>Read your repository.</b> Matching uses the topic of your request, not your source.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="questions">
+    <div class="wrap">
+      <h2>Questions</h2>
+      <div class="faq">
+        <details>
+          <summary>Is it really free?</summary>
+          <p>Yes. There is no subscription, no API key and no card. Advertisers pay for the sponsored line, and that pays for the model. There will be a daily usage limit to keep those two in balance.</p>
+        </details>
+        <details>
+          <summary>Which models does it use?</summary>
+          <p>Open-weight coding models, starting with DeepSeek, served by providers that work under zero-data-retention terms.</p>
+        </details>
+        <details>
+          <summary>Can I turn the ad off?</summary>
+          <p>No. The ad line is what pays for the model. If you would rather pay with money, OpenCode itself works with your own API key.</p>
+        </details>
+        <details>
+          <summary>When can I use it?</summary>
+          <p>There is no date yet. Shuriken is in development, and nothing can be installed today. Watching the GitHub repo is the way to hear about the first release.</p>
+        </details>
+        <details>
+          <summary>Is Shuriken part of OpenCode?</summary>
+          <p>No. Shuriken is built on OpenCode, which is open source, and is a separate project run by a different team.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="wrap">
+      <h2>Shuriken isn't released yet.</h2>
+      <p>Watch the repository on GitHub and you will get a notification when the first version ships. That is the whole waitlist.</p>
+      <a class="button cut" href="https://github.com/rolzie-7/Shuriken">Watch on GitHub</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>This page sets no cookies, runs no analytics and loads nothing from other sites.</p>
+    <p>Shuriken is an independent project and is not affiliated with OpenCode or its maintainers.</p>
+  </div>
+</footer>
+
+<script>
+  // Plays the terminal session once on load. Skipped for reduced motion; without
+  // JavaScript the finished session is shown as written in the HTML.
+  (function () {
+    var term = document.getElementById("terminal");
+    var state = document.getElementById("t-state");
+    if (!term || !state) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      term.classList.add("is-finished");
+      return;
+    }
+
+    var lines = term.querySelectorAll(".tl:not(.t-ad)");
+    var ad = document.getElementById("t-ad");
+    var frames = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
+    var delays = [0, 300, 1200, 600, 700, 900, 1100];
+    var started = Date.now();
+    var frame = 0;
+
+    term.classList.add("is-playing");
+    state.textContent = frames[0] + " Working  0:00";
+
+    var spin = setInterval(function () {
+      frame = (frame + 1) % frames.length;
+      // The mock clock runs fast: the real session took 42 s, the replay takes about 5.
+      var shown = Math.min(42, Math.round((Date.now() - started) / 5200 * 42));
+      state.textContent = frames[frame] + " Working  0:" + (shown < 10 ? "0" : "") + shown;
+    }, 90);
+
+    var at = 200;
+    lines.forEach(function (line, i) {
+      at += delays[i] || 600;
+      setTimeout(function () { line.classList.add("is-shown"); }, at);
+    });
+
+    // The ad arrives as soon as the agent starts working, not at the end.
+    setTimeout(function () { ad.classList.add("is-shown"); }, 900);
+
+    setTimeout(function () {
+      clearInterval(spin);
+      state.textContent = "Done  0:42";
+      term.classList.remove("is-playing");
+      term.classList.add("is-finished");
+    }, at + 500);
+  })();
+</script>
+
+</body>
+</html>

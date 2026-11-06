@@ -1,5 +1,6 @@
 /* Shuriken landing page.
-   Colour rule: brass marks the ad and the money it brings in. Nothing else is brass. */
+   Colour rule: brass marks the ad and the money it brings in. Nothing else is brass.
+   Motion rule: everything moves in steps, like pixel art, never in smooth curves. */
 
 @font-face {
   font-family: "Pixelify Sans";
@@ -28,9 +29,11 @@
   --ink: #17223f;          /* indigo text */
   --steel: #5a667c;        /* secondary text */
   --rule: #cfd5da;         /* hairlines */
-  --night: #101831;        /* terminal ground */
+  --night: #101831;        /* dark pages */
+  --night-deep: #070c1d;   /* terminal ground */
   --night-text: #dfe4ee;
   --night-dim: #8e9ab3;
+  --night-rule: #2a3560;
   --brass: #d9a521;        /* the ad, on dark */
   --brass-ink: #7a5a06;    /* the ad, as text on light */
   --button: #17223f;
@@ -42,6 +45,7 @@
 
   --gutter: 16px;
   --notch: 4px;
+  --header-h: 64px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -51,7 +55,8 @@
     --ink: #e6e9ee;
     --steel: #9ba7bd;
     --rule: #2a3560;
-    --night: #070c1d;
+    --night: #060a18;
+    --night-deep: #0d142c;
     --brass-ink: #e4b63f;
     --button: #e6e9ee;
     --button-text: #0d142c;
@@ -66,6 +71,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -102,7 +108,7 @@ a:hover {
 }
 
 :focus-visible {
-  outline: 2px solid var(--ink);
+  outline: 2px solid currentColor;
   outline-offset: 3px;
 }
 
@@ -111,6 +117,12 @@ a:hover {
   max-width: 1120px;
   margin-inline: auto;
   padding-inline: var(--gutter);
+}
+
+.sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
 }
 
 /* Pixel-cut corners, shared by the terminal, the receipt and the buttons. */
@@ -125,17 +137,27 @@ a:hover {
   );
 }
 
-/* ---------- Header ---------- */
+/* ---------- Header (fixed; follows the tone of the page under it) ---------- */
 
 .site-header {
-  padding-block: 20px;
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 10;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  background: var(--washi);
+  color: var(--ink);
+}
+html[data-tone="dark"] .site-header {
+  background: var(--night);
+  color: var(--night-text);
 }
 .site-header .wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px 24px;
-  flex-wrap: wrap;
 }
 .brand {
   display: inline-flex;
@@ -156,11 +178,49 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 8px 24px;
-  flex-wrap: wrap;
   font-size: 1rem;
 }
 .site-nav a {
   padding-block: 6px;
+}
+.site-nav .section-link {
+  display: none;
+}
+
+/* ---------- Page markers (right edge) ---------- */
+
+.pager {
+  display: none;
+}
+
+/* ---------- Pages ---------- */
+
+.page {
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-block: calc(var(--header-h) + 24px) 40px;
+  display: grid;
+  align-content: center;
+  scroll-snap-align: start;
+  overflow: hidden;
+}
+.page-dark {
+  background: var(--night);
+  color: var(--night-text);
+  --ink: var(--night-text);
+  --steel: var(--night-dim);
+  --rule: var(--night-rule);
+}
+
+.page h2 {
+  font-family: var(--pixel);
+  font-weight: 500;
+  font-size: 2rem;
+  line-height: 1.25;
+}
+.section-intro {
+  margin-top: 16px;
+  max-width: 62ch;
 }
 
 /* ---------- Buttons ---------- */
@@ -182,27 +242,39 @@ a:hover {
   outline: 2px solid var(--button-text);
   outline-offset: -6px;
 }
-
-/* ---------- Hero ---------- */
-
-.hero {
-  padding-block: 40px 72px;
+.page-dark .button {
+  background: var(--night-text);
+  color: var(--night);
 }
-.hero h1 {
+.page-dark .button:hover {
+  background: #ffffff;
+}
+.page-dark .button:focus-visible {
+  outline-color: var(--night);
+}
+
+/* ---------- Page 1: hero ---------- */
+
+.hero-grid {
+  display: grid;
+  gap: 40px;
+  align-items: center;
+}
+.page-hero h1 {
   font-family: var(--pixel);
   font-weight: 500;
   font-size: 2rem;
   line-height: 1.25;
   letter-spacing: 0;
-  max-width: 28ch;
 }
-.hero h1 span {
+.page-hero h1 span {
   display: block;
+  width: fit-content;
 }
 .lede {
   margin-top: 24px;
-  max-width: 62ch;
-  font-size: 1.1875rem;
+  max-width: 60ch;
+  font-size: 1.125rem;
 }
 .hero-action {
   margin-top: 28px;
@@ -217,14 +289,18 @@ a:hover {
   line-height: 1.45;
   color: var(--steel);
 }
+.hero-mark {
+  display: none;
+  fill: var(--ink);
+}
 
-/* The terminal */
+/* ---------- Page 2: the ad line ---------- */
 
 .demo {
-  margin-top: 48px;
+  margin-top: 28px;
 }
 .terminal {
-  background: var(--night);
+  background: var(--night-deep);
   color: var(--night-text);
   font-family: var(--mono);
   font-size: 0.8125rem;
@@ -263,7 +339,7 @@ a:hover {
 .t-status {
   margin-top: 18px;
   padding-top: 10px;
-  border-top: 1px solid #2a3560;
+  border-top: 1px solid var(--night-rule);
   display: flex;
   justify-content: space-between;
   gap: 0 24px;
@@ -281,7 +357,7 @@ a:hover {
   border: 1px dashed transparent;
 }
 .t-ad .label {
-  color: var(--night);
+  color: var(--night-deep);
   background: var(--brass);
   padding-inline: 1ch;
 }
@@ -291,7 +367,7 @@ a:hover {
   text-underline-offset: 0.25em;
 }
 
-/* Play-once reveal. Without JavaScript, or with reduced motion, every line is simply visible. */
+/* While the session replays, lines are hidden until the script shows them. */
 .terminal.is-playing .tl {
   visibility: hidden;
 }
@@ -320,35 +396,18 @@ a:hover {
   color: var(--steel);
 }
 
-/* ---------- Sections ---------- */
-
-.section {
-  padding-block: 64px;
-  border-top: 1px solid var(--rule);
-}
-.section h2 {
-  font-family: var(--pixel);
-  font-weight: 500;
-  font-size: 2rem;
-  line-height: 1.25;
-}
-.section-intro {
-  margin-top: 16px;
-  max-width: 62ch;
-}
-
-/* Who pays */
+/* ---------- Page 3: who pays ---------- */
 
 .pays {
-  margin-top: 40px;
+  margin-top: 32px;
   display: grid;
-  gap: 40px;
+  gap: 32px;
 }
 .steps {
   list-style: none;
   counter-reset: step;
   display: grid;
-  gap: 28px;
+  gap: 22px;
   max-width: 54ch;
 }
 .steps li {
@@ -371,7 +430,6 @@ a:hover {
 }
 
 .receipt {
-  align-self: start;
   background: var(--paper);
   padding: 24px 20px;
   font-family: var(--mono);
@@ -425,13 +483,18 @@ a:hover {
   color: var(--steel);
 }
 
-/* What leaves your machine */
+/* ---------- Page 4: what leaves your machine ---------- */
 
+.wide-intro {
+  max-width: 96ch;
+}
 .manifest {
-  margin-top: 40px;
+  margin-top: 24px;
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 .manifest thead th {
   font-weight: 700;
@@ -442,10 +505,11 @@ a:hover {
 .manifest tbody th,
 .manifest tbody td {
   vertical-align: top;
-  padding: 22px 24px 22px 0;
+  padding: 12px 24px 12px 0;
   border-bottom: 1px solid var(--rule);
 }
 .manifest tbody th {
+  position: relative;
   width: 22%;
   font-family: var(--pixel);
   font-weight: 500;
@@ -460,45 +524,55 @@ a:hover {
   padding-right: 0;
 }
 .manifest p + p {
-  margin-top: 10px;
+  margin-top: 6px;
 }
-.manifest .is-ad th {
-  box-shadow: inset 0 3px 0 var(--brass);
+.manifest .is-ad th::before {
+  content: "";
+  position: absolute;
+  inset: -1px 0 auto 0;
+  height: 3px;
+  background: var(--brass);
+  transform-origin: left;
 }
 .manifest .pending {
   color: var(--steel);
 }
 
-/* Rules for the ad */
+/* ---------- Page 5: rules for the ad ---------- */
 
 .rules {
   margin-top: 36px;
   list-style: none;
   display: grid;
-  gap: 20px 48px;
+  gap: 28px 56px;
 }
 .rules li {
   position: relative;
-  padding-left: 24px;
-  max-width: 46ch;
+  padding-left: 28px;
+  max-width: 44ch;
 }
 .rules li::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 0.55em;
-  width: 8px;
-  height: 8px;
+  top: 0.5em;
+  width: 12px;
+  height: 12px;
   background: var(--brass);
 }
 .rules b {
   display: block;
+  font-family: var(--pixel);
+  font-weight: 500;
+  font-size: 1.375rem;
+  line-height: 1.3;
+  margin-bottom: 4px;
 }
 
-/* Questions */
+/* ---------- Page 6: questions ---------- */
 
 .faq {
-  margin-top: 28px;
+  margin-top: 24px;
   max-width: 72ch;
 }
 .faq details {
@@ -507,7 +581,7 @@ a:hover {
 .faq summary {
   cursor: pointer;
   list-style: none;
-  padding: 18px 40px 18px 0;
+  padding: 16px 40px 16px 0;
   position: relative;
   font-weight: 700;
 }
@@ -518,7 +592,7 @@ a:hover {
   content: "+";
   position: absolute;
   right: 4px;
-  top: 12px;
+  top: 10px;
   font-family: var(--pixel);
   font-size: 1.5rem;
   line-height: 1.5;
@@ -527,20 +601,32 @@ a:hover {
   content: "-";
 }
 .faq details p {
-  padding: 0 40px 20px 0;
+  padding: 0 40px 18px 0;
 }
 
-/* Closing */
+/* ---------- Page 7: closing ---------- */
 
-.closing {
-  padding-block: 64px;
-  background: var(--night);
-  color: var(--night-text);
+.page-closing {
+  grid-template-rows: 1fr auto;
+  align-content: stretch;
+  padding-bottom: 0;
 }
-.closing .wrap {
+.closing-grid {
+  align-self: center;
   display: grid;
-  gap: 48px;
+  gap: 40px;
   align-items: center;
+}
+.page-closing h2 {
+  max-width: 24ch;
+}
+.page-closing .closing-text p {
+  margin-top: 16px;
+  max-width: 56ch;
+  color: var(--steel);
+}
+.page-closing .button {
+  margin-top: 28px;
 }
 .closing-mark {
   /* 4 px per cell */
@@ -549,41 +635,16 @@ a:hover {
   fill: var(--night-text);
   order: -1;
 }
-.closing h2 {
-  font-family: var(--pixel);
-  font-weight: 500;
-  font-size: 2rem;
-  line-height: 1.25;
-  max-width: 24ch;
-}
-.closing p {
-  margin-top: 16px;
-  max-width: 56ch;
-  color: var(--night-dim);
-}
-.closing .button {
-  margin-top: 28px;
-  background: var(--night-text);
-  color: var(--night);
-}
-.closing .button:hover {
-  background: #ffffff;
-}
-.closing .button:focus-visible {
-  outline-color: var(--night);
-}
-
 .site-footer {
-  padding-block: 32px 48px;
-  font-size: 0.9375rem;
+  padding-block: 24px 28px;
+  font-size: 0.875rem;
   color: var(--steel);
+  border-top: 1px solid var(--rule);
+  margin-top: 32px;
 }
 .site-footer .wrap {
   display: grid;
-  gap: 8px;
-}
-.site-footer p {
-  max-width: 78ch;
+  gap: 4px;
 }
 
 /* ---------- Wider screens ---------- */
@@ -591,35 +652,35 @@ a:hover {
 @media (min-width: 720px) {
   :root {
     --gutter: 32px;
+    --header-h: 72px;
   }
-  .hero {
-    padding-block: 56px 96px;
+  .site-nav .section-link {
+    display: inline;
   }
-  .hero h1 {
-    font-size: 3rem;
-    line-height: 1.17;
+  .page-hero h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+  .page h2 {
+    font-size: 2.5rem;
+    line-height: 1.2;
   }
   .terminal {
     font-size: 0.9375rem;
-    padding: 28px 32px 24px;
+    padding: 24px 32px 20px;
   }
   .callout {
     margin-left: 60px;
   }
-  .section {
-    padding-block: 96px;
-  }
-  .closing {
-    padding-block: 96px;
-  }
   .pays {
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
     gap: 64px;
+    align-items: start;
   }
   .rules {
     grid-template-columns: 1fr 1fr;
   }
-  .closing .wrap {
+  .closing-grid {
     grid-template-columns: 1fr auto;
   }
   .closing-mark {
@@ -630,10 +691,89 @@ a:hover {
   }
 }
 
-@media (min-width: 1040px) {
-  .hero h1 {
-    font-size: 4rem;
-    line-height: 1.125;
+@media (min-width: 960px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 56px;
+  }
+  .hero-mark {
+    /* 10 px per cell */
+    display: block;
+    width: 250px;
+    height: 190px;
+  }
+
+  .pager {
+    position: fixed;
+    z-index: 10;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: grid;
+    color: var(--ink);
+  }
+  html[data-tone="dark"] .pager {
+    color: var(--night-text);
+  }
+  .pager a {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+  }
+  .pager a::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+    opacity: 0.3;
+  }
+  .pager a:hover::before {
+    opacity: 0.7;
+  }
+  .pager a[aria-current="true"]::before {
+    opacity: 1;
+    height: 20px;
+  }
+  .pager span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
+
+@media (min-width: 1100px) {
+  .page-hero h1 {
+    font-size: 3.25rem;
+    line-height: 1.15;
+  }
+}
+
+/* One screen per page, one flip per gesture, where a screen is big enough to hold a page. */
+@media (min-width: 960px) and (min-height: 620px) {
+  html {
+    scroll-snap-type: y mandatory;
+  }
+  .page {
+    scroll-snap-stop: always;
+  }
+}
+
+@media (min-width: 960px) and (max-height: 720px) {
+  .page {
+    padding-block: calc(var(--header-h) + 8px) 16px;
+  }
+  .page h2 {
+    font-size: 2rem;
+  }
+  .demo {
+    margin-top: 20px;
+  }
+  .terminal {
+    line-height: 1.6;
+    padding-block: 18px 14px;
   }
 }
 
@@ -656,7 +796,7 @@ a:hover {
     clip-path: inset(50%);
   }
   .manifest tbody tr {
-    padding-block: 24px;
+    padding-block: 20px;
     border-top: 2px solid var(--ink);
   }
   .manifest tbody th,
@@ -666,7 +806,7 @@ a:hover {
     width: auto;
   }
   .manifest tbody td {
-    margin-top: 16px;
+    margin-top: 14px;
   }
   .manifest tbody td::before {
     content: attr(data-label);
@@ -675,16 +815,104 @@ a:hover {
     font-weight: 700;
     font-size: 0.9375rem;
   }
-  .manifest .is-ad th {
-    box-shadow: none;
+  .manifest .is-ad th::before {
+    display: none;
   }
   .manifest .is-ad {
     border-top-color: var(--brass);
   }
 }
 
+/* ---------- Entrance animations ----------
+   Each page replays its entrance every time it comes into view, from either direction.
+   The script adds .anim to <html> (only when motion is allowed), .is-in to the page in
+   view, and sets --d (delay in ms) on every [data-a] element. Without .anim nothing is hidden. */
+
+.anim .page [data-a] {
+  opacity: 0;
+}
+.anim .page.is-in [data-a] {
+  animation: a-rise 420ms steps(6, end) both;
+  animation-delay: calc(var(--d, 0) * 1ms);
+}
+.anim .page.is-in [data-a="right"] {
+  animation-name: a-right;
+}
+.anim .page.is-in [data-a="pop"] {
+  animation-name: a-pop;
+  animation-timing-function: steps(4, end);
+}
+/* Typed: revealed one character at a time. --n is the number of characters. */
+.anim .page.is-in [data-a="type"] {
+  animation: a-type calc(var(--n, 20) * 18ms) steps(var(--n, 20), end) both;
+  animation-delay: calc(var(--d, 0) * 1ms);
+}
+/* Printed: revealed top to bottom in rows, like a receipt leaving the printer. */
+.anim .page.is-in [data-a="print"] {
+  animation: a-scan 700ms steps(10, end) both;
+  animation-delay: calc(var(--d, 0) * 1ms);
+}
+/* The helmet is drawn one grid row at a time (19 rows). */
+.anim .page.is-in [data-a="scan"] {
+  animation: a-scan 760ms steps(19, end) both;
+  animation-delay: calc(var(--d, 0) * 1ms);
+}
+
+.anim .rules li::before {
+  transform: scale(0);
+}
+.anim .page.is-in .rules li::before {
+  animation: a-pop 240ms steps(3, end) both;
+  animation-delay: calc(var(--d, 0) * 1ms + 260ms);
+}
+.anim .manifest .is-ad th::before {
+  transform: scaleX(0);
+}
+.anim .page.is-in .manifest .is-ad th::before {
+  animation: a-grow 400ms steps(8, end) both;
+  animation-delay: calc(var(--d, 0) * 1ms + 300ms);
+}
+
+/* The callout waits for the terminal session to finish. */
+.anim .callout {
+  opacity: 0;
+}
+.anim .terminal.is-finished + .callout {
+  animation: a-rise 420ms steps(6, end) both;
+}
+
+@keyframes a-rise {
+  from { opacity: 0; transform: translateY(48px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes a-right {
+  from { opacity: 0; transform: translateX(72px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes a-pop {
+  from { opacity: 0; transform: scale(0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes a-grow {
+  from { transform: scaleX(0); }
+  to { transform: none; }
+}
+@keyframes a-type {
+  from { opacity: 1; clip-path: inset(0 100% 0 0); }
+  to { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+@keyframes a-scan {
+  from { opacity: 1; clip-path: inset(0 0 100% 0); }
+  to { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+}
+
+[data-a="type"] {
+  width: fit-content;
+  max-width: 100%;
 }
